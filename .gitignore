@@ -1,0 +1,7 @@
+
+# The solved environment and lock of each example are not the source of truth; the app and
+# `salpa env install` solve from pixi.toml. Every Hub package but one ships without a lock.
+examples/*/.pixi/
+examples/*/pixi.lock
+examples/**/__pycache__/
+examples/**/.pytest_cache/
