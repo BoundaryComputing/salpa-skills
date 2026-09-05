@@ -10,8 +10,10 @@ should do, and an agent builds, verifies and installs it, stopping to ask you ex
 | skill | does |
 |---|---|
 | [`salpa-node`](skills/salpa-node/SKILL.md) | Build a working node from a description — investigate the tool, scaffold, implement, verify with `salpa validate` and `salpa smoke`, install into your running Salpa. |
+| [`salpa-demo-data`](skills/salpa-demo-data/SKILL.md) | Give an existing package the sample input it lacks — real `demo_data` and a `DEMO_CONFIG` for every node `salpa validate` flags, then prove each runs with `salpa smoke`. |
 
-One skill, deliberately. Others will be added only when they earn their place.
+Two skills, deliberately. Others will be added only when they earn their place — the second
+was added because 25 of the Hub's 47 nodes lacked sample input, which is a procedure, not knowledge.
 
 ## Install
 
@@ -52,7 +54,7 @@ can. On a yes it verifies and installs without asking again; if you go quiet, it
 
 ## A worked example
 
-[`examples/`](examples/) holds a package built with this skill, with the transcript of the build.
+[`examples/`](examples/) holds packages built with these skills, each with the record of its build.
 It is also published on the [Salpa Hub](https://github.com/BoundaryComputing/salpa-hub), which is
 where an installed Salpa finds it.
 
