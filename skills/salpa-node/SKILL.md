@@ -74,6 +74,8 @@ Then **stop** and present, briefly and without jargon:
 - what it is built on, and whether that is free and installable — and on which platforms
 - **GO / CAUTION / NO-GO**, with the one thing that makes it a caution if it is one
 - anything you had to assume
+- the name to credit as the package's author, unless `git config user.name` already gives it. The
+  author is the user, never you, and never a placeholder.
 
 Ask for a go-ahead or a correction. **Do not scaffold before you have it.**
 
@@ -86,8 +88,10 @@ Ask for a go-ahead or a correction. **Do not scaffold before you have it.**
 No questions in this phase. Work.
 
 1. **Scaffold — do not hand-write the package.**
-   `salpa new <kebab-name> --yes -d "<description>" --category "<...>" --hashtags "..."`
-   Use `-t multi-node-package` only for the split agreed at checkpoint 1.
+   `salpa new <kebab-name> --yes -d "<description>" --author "<name>" --category "<...>" --hashtags "<5-10, comma-separated>"`
+   Pass every one of these, as `salpa new --help` describes them. A field left out keeps the
+   scaffold's placeholder (`author = "TODO"`), and `salpa validate` does not flag it. Use
+   `-t multi-node-package` only for the split agreed at checkpoint 1.
 2. **Read every generated file** before changing it, comments included.
 3. **Declare dependencies with `salpa add <package> ...`**, never by editing `pixi.toml` by hand.
    It finds each package in the declared channels, narrows `platforms` to what can run all of them
@@ -135,15 +139,25 @@ No questions in this phase. Iterate against the tools until they are clean.
    this node, and say which and why if you leave one.
    **`errors: 0` is not enough:** if `import_checks` is not `"ran"`, nothing deep was checked at
    all — build the environment and run it again.
-2. `salpa smoke --json <pkg>` — the node must run on its own `demo_data`, **fail** when its input
-   is missing, and be deterministic, idempotent and path-independent.
+2. `salpa smoke --json <pkg>` — every node must be `ok`: it ran on its own `demo_data` and
+   **failed** when its input was taken away. The relations reported beside the verdict
+   (`deterministic`, `idempotent`, `path_independent`) are advisory in the tool, not in your
+   work. Read each one that is `false`, with its `advisories`, and fix the cause. The one
+   exception is a node that legitimately samples, whose runs differ; say so in your report.
+   `salpa docs machine-readable-output` defines every field.
    **A skipped run is not a passing run.** If `skipped` is set, fix the cause. A failing node's
    verdict carries its whole exception and an `stderr_tail`; read them before changing anything.
 3. `salpa platforms <pkg>` — the declared list matches the evidence, or you know why not.
 4. `pixi run test` — tests pass, and none are skipped.
-5. When a check fails, fix **the code**, never the test or the demo data. Changing what you are
+5. `salpa dev --status <pkg>` — *Metadata* and *The science* must read ✓. Metadata still holding
+   what the scaffold put there shows up here and nowhere else, for example an author of `TODO` or
+   too few hashtags. Read the other rows
+   as a cross-check, not a gate. `?` means that process has not checked a row, and steps 2–4 are
+   those checks. A stdlib-only node keeps *Dependencies* at ○ with good reason.
+   `salpa docs the-authoring-loop` explains every row.
+6. When a check fails, fix **the code**, never the test or the demo data. Changing what you are
    measured against is not a repair.
-6. `salpa push <pkg>` puts it into their running Salpa. Confirm it is there and tell them where
+7. `salpa push <pkg>` puts it into their running Salpa. Confirm it is there and tell them where
    to find it. If Salpa is not running, say so and wait — do not try to start it.
 
 Then report, in one short block:
