@@ -74,3 +74,18 @@ Nothing in the tools this time: the two edges the first build hit were already f
 salpa-cli 0.15.1, and `salpa platforms <dir>` worked as the skill says. What it exercised
 that the first build did not: a dependency pair, an API probed before use, demo data produced
 by another node, and the chained-input path.
+
+## 0.1.1: Python 3.12, found in the app (2026-09-28)
+
+0.1.0 never ran in a packaged Salpa on Apple Silicon or Windows. The app imports its compiled core
+into the package's environment, and that core exists for Python 3.12 only; on osx-arm64 and win-64
+Meeko depends on the only prody build there, which requires Python below 3.12, so the environment
+resolved Python 3.11.16 and every node stopped at `ModuleNotFoundError: No module named
+'bocoflow_core.node'`. Nothing in this build could see it: `salpa validate`, `salpa smoke` and the
+tests all use the pure-Python SDK, which imports under any Python. It surfaced when the package ran
+inside the packaged app on an Apple Silicon Mac.
+
+0.1.1 pins `python = "3.12.*"`. `salpa platforms --solve --write` then measured linux-64 and osx-64
+as the platforms that can give it, and dropped osx-arm64, win-64 and linux-aarch64 with the solver's
+reason; the app runs Apple Silicon through Rosetta 2 and Windows through WSL2. validate 0 errors with
+its import checks run, smoke ok, 9 tests.
