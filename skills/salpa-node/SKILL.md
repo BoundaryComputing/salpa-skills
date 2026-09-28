@@ -151,10 +151,12 @@ No questions in this phase. Iterate against the tools until they are clean.
 4. `pixi run test` — tests pass, and none are skipped.
 5. `salpa dev --status <pkg>` — *Metadata* and *The science* must read ✓. Metadata still holding
    what the scaffold put there shows up here and nowhere else, for example an author of `TODO` or
-   too few hashtags. Read the other rows
-   as a cross-check, not a gate. `?` means that process has not checked a row, and steps 2–4 are
-   those checks. A stdlib-only node keeps *Dependencies* at ○ with good reason.
-   `salpa docs the-authoring-loop` explains every row.
+   too few hashtags. Read the other rows as a cross-check, not a gate.
+   **Expect *Does it run?* and *Platforms* to read `?` even though steps 2 and 3 just passed.**
+   `--status` is a new process that reads only the disk, and those two rows turn ✓ only when the
+   check runs inside an interactive `salpa dev` session. That is by design, not a fault, so do
+   not investigate it: steps 2 and 3's own JSON are the evidence. A stdlib-only node keeps
+   *Dependencies* at ○ with good reason. `salpa docs the-authoring-loop` explains every row.
 6. When a check fails, fix **the code**, never the test or the demo data. Changing what you are
    measured against is not a repair.
 7. `salpa push <pkg>` puts it into their running Salpa. Confirm it is there and tell them where
