@@ -52,6 +52,29 @@ thing to build?* and, after the first working run, *is this answer right?* Autom
 that a node runs, fails on bad input, and repeats; they cannot prove the science is correct. You
 can. On a yes it verifies and installs without asking again; if you go quiet, it waits.
 
+## Let your agent drive Salpa: `salpa-mcp`
+
+The skills build nodes. To have your agent *use* Salpa as well — list its workflow templates, prepare
+a workflow from one in a folder you name, change its steps' settings, run it, and read what each step
+made — add [`salpa-mcp`](https://pypi.org/project/salpa-mcp/) to your agent as an MCP server:
+
+```json
+{
+  "mcpServers": {
+    "salpa": { "command": "uvx", "args": ["salpa-mcp"] }
+  }
+}
+```
+
+In Claude Code that is `claude mcp add salpa -- uvx salpa-mcp`.
+
+It talks only to the Salpa running on your computer, as you, with the app's own per-launch token. It
+will not change a workflow you have open in Salpa: the canvas keeps its own copy and would put the
+change back, so it asks you to close the workflow's tab, or to make the change in Salpa. A run starts
+work on your computer, and a cloud step uses your account's Salpa Compute allowance, so it tells your
+agent to ask you first. Changing a step's settings needs Salpa 0.15.0 or later; the rest works from
+0.12.0.
+
 ## A worked example
 
 [`examples/`](examples/) holds packages built with these skills, each with the record of its build.
