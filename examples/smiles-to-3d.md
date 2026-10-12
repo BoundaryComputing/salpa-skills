@@ -91,3 +91,20 @@ energies, UFF. **Answer: yes, this is right.**
 - It said `salpa platforms <pkg>`; that was right in intent and wrong for 0.15.0. Kept, now true.
 - Checkpoint 2 for a "large output" case was not exercised: the SDF is 5 KB and the numbers fit
   on a screen. The rule for trajectories stands untested.
+
+## 0.1.1: the lock, and Python 3.12 (2026-10-12)
+
+A docking chain run twice, on 2026-10-09 and on 2026-10-12, with the same inputs and seed 42 and
+its environments solved afresh each time, got different conformers from this package: imatinib's
+neutral state came out at 78.79 kcal/mol (MMFF94) the first time and 75.44 the second, and the
+docking that followed answered differently (four poses for one protonation state, then seven).
+0.1.0 shipped no lock, so each solve took whatever conda-forge held that day; which dependency
+changed was not recorded. From 2026-10-12 the Hub ships a package's `pixi.lock` when its source
+tracks one, and this package is one of the first two, with ligand-pdbqt-meeko 0.1.2.
+
+0.1.1 tracks `pixi.lock`, written by pixi 0.73.0 (the version the app pins), and pins `python =
+"3.12.*"`, which `salpa validate` asks for (E8): the app's compiled core is built for 3.12 only.
+0.1.0's `>=3.10,<3.13` resolved 3.12 anyway. The lock gives Python 3.12.15 on all five platforms,
+RDKit 2026.09.1 on linux-64, linux-aarch64 and win-64, and RDKit 2026.03.5 on osx-64 and
+osx-arm64. validate: no findings, with its import checks run; smoke ok from an install path with a
+space; 9 tests.

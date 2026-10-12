@@ -1,7 +1,8 @@
 
-# The solved environment and lock of each example are not the source of truth; the app and
-# `salpa env install` solve from pixi.toml. Every Hub package but one ships without a lock.
+# An example's solved environment is a local artefact. Its pixi.lock is not: since 2026-10-12
+# each example tracks its lock (smiles-to-3d 0.1.1, ligand-pdbqt-meeko 0.1.2), the Hub ships a
+# package's lock when its source tracks one, and the Salpa app builds the environment from it, so
+# an install gets the solve that was tested rather than whatever the channels hold that day.
 examples/*/.pixi/
-examples/*/pixi.lock
 examples/**/__pycache__/
 examples/**/.pytest_cache/
