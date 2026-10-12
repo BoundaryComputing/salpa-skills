@@ -89,3 +89,13 @@ inside the packaged app on an Apple Silicon Mac.
 as the platforms that can give it, and dropped osx-arm64, win-64 and linux-aarch64 with the solver's
 reason; the app runs Apple Silicon through Rosetta 2 and Windows through WSL2. validate 0 errors with
 its import checks run, smoke ok, 9 tests.
+
+## 0.1.2: the lock (2026-10-12)
+
+0.1.2 tracks `pixi.lock`, written by pixi 0.73.0 (the version the app pins), for the reason in
+smiles-to-3d's record: a docking chain run twice with the same inputs, its environments solved
+afresh each time, answered differently, and the two steps that shipped no lock were this package
+and smiles-to-3d. From 2026-10-12 the Hub ships a package's lock when its source tracks one. The
+lock gives Python 3.12.15 and Meeko 0.8.0 on both platforms, RDKit 2026.09.1 on linux-64 and
+2026.03.5 on osx-64. validate: no findings, with its import checks run; smoke ok from an install
+path with a space; 9 tests.
